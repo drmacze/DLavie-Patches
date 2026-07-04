@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "title": "DLavie 26 Base Mod",
+  "description": "Base mod FIFA 16 \u2014 gameplay smooth, AI update, kits HD.",
+  "category": "base",
+  "base_version": null,
+  "target_path": "Android/data/com.ea.gp.fifaworld/files/",
+  "files": [],
+  "rollback_supported": true,
+  "released_at": "2026-07-01T00:00:00Z",
+  "changelog": "Initial release.",
+  "base_data": {
+    "url": "https://github.com/drmacze/DLavie-Launcher-Data/releases/download/v26/dlavie26-data.zip",
+    "size_bytes": 2147483648,
+    "note": "User must download this base data first time only. Subsequent patches are small (5-50MB)."
+  }
+}
