@@ -1,23 +1,98 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "repo": "DLavie-Patches",
+  "source_repo": "drmacze/F16",
+  "source_branch": "main",
   "latest_version": "1.0.0",
   "stable_version": "1.0.0",
-  "min_launcher_version": 102,
+  "min_launcher_version": 104,
+  "base_data": {
+    "url": "https://github.com/drmacze/F16/releases/download/v1.0-dlavie26/DLavie26-data-v1.zip",
+    "obb_url": "https://github.com/drmacze/F16/releases/download/v1.0-dlavie26/DLavie26-obb-v1.zip",
+    "apk_url": "https://github.com/drmacze/F16/releases/download/v1.0-dlavie26/DLavie26.apk",
+    "total_size_bytes": 2752606351,
+    "note": "User downloads this FIRST TIME ONLY. Subsequent patches are small (5-50MB)."
+  },
   "patches": [
     {
       "version": "1.0.0",
       "category": "base",
       "title": "DLavie 26 Base Mod",
-      "description": "Base mod FIFA 16 \u2014 gameplay smooth, AI update, kits HD. This is the foundation \u2014 all future patches build on top of this.",
-      "github_path": "patches/v1.0.0-base",
+      "description": "Base mod FIFA 16 \u2014 5310 files (Engine.ini, ai.ini, cl.ini, data/, assets/, audiodata/, Speech/, updates/). Gameplay smooth, AI update, kits HD.",
+      "github_path": null,
+      "source_repo": "drmacze/F16",
+      "source_branch": "main",
+      "source_commit": null,
       "base_version": null,
-      "base_data_url": "https://github.com/drmacze/DLavie-Launcher-Data/releases/download/v26/dlavie26-data.zip",
-      "base_data_size_bytes": 2147483648,
-      "files": [],
+      "files": [
+        {
+          "path": "Engine.ini",
+          "source_path": "Engine.ini"
+        },
+        {
+          "path": "ai.ini",
+          "source_path": "ai.ini"
+        },
+        {
+          "path": "cl.ini",
+          "source_path": "cl.ini"
+        },
+        {
+          "path": "emotion.ini",
+          "source_path": "emotion.ini"
+        },
+        {
+          "path": "locale.ini",
+          "source_path": "locale.ini"
+        },
+        {
+          "path": "nis.ini",
+          "source_path": "nis.ini"
+        },
+        {
+          "path": "platform.ini",
+          "source_path": "platform.ini"
+        },
+        {
+          "path": "player.ini",
+          "source_path": "player.ini"
+        },
+        {
+          "path": "product.ini",
+          "source_path": "product.ini"
+        },
+        {
+          "path": "rna.ini",
+          "source_path": "rna.ini"
+        },
+        {
+          "path": "antilag.cfg",
+          "source_path": "antilag.cfg"
+        },
+        {
+          "path": "Sweet.fx",
+          "source_path": "Sweet.fx"
+        },
+        {
+          "path": "options.viv",
+          "source_path": "options.viv"
+        },
+        {
+          "path": "eng_us.db",
+          "source_path": "eng_us.db"
+        },
+        {
+          "path": "splash_widescreen.png",
+          "source_path": "splash_widescreen.png"
+        },
+        {
+          "path": "replay0.bin",
+          "source_path": "replay0.bin"
+        }
+      ],
       "status": "stable",
       "released_at": "2026-07-01T00:00:00Z",
-      "changelog": "Initial release \u2014 DLavie 26 base mod with smooth gameplay and HD kits."
+      "changelog": "Initial release \u2014 DLavie 26 base mod. Full data (2.7GB) dari releases v1.0-dlavie26. Config files dari repo F16 root."
     }
   ]
 }
