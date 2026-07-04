@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "repo": "DLavie-Patches",
+  "latest_version": "1.0.0",
+  "stable_version": "1.0.0",
+  "min_launcher_version": 102,
+  "patches": [
+    {
+      "version": "1.0.0",
+      "category": "base",
+      "title": "DLavie 26 Base Mod",
+      "description": "Base mod FIFA 16 \u2014 gameplay smooth, AI update, kits HD. This is the foundation \u2014 all future patches build on top of this.",
+      "github_path": "patches/v1.0.0-base",
+      "base_version": null,
+      "base_data_url": "https://github.com/drmacze/DLavie-Launcher-Data/releases/download/v26/dlavie26-data.zip",
+      "base_data_size_bytes": 2147483648,
+      "files": [],
+      "status": "stable",
+      "released_at": "2026-07-01T00:00:00Z",
+      "changelog": "Initial release \u2014 DLavie 26 base mod with smooth gameplay and HD kits."
+    }
+  ]
+}
