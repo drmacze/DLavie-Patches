@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111318">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="RPF6 Pocket">
+  <meta name="description" content="Pembaca dan patcher RPF6 lokal untuk iPhone. File diproses langsung di perangkat.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <title>RPF6 Pocket Lab</title>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">LOCAL • PRIVATE • OFFLINE</p>
+      <h1>RPF6 Pocket Lab</h1>
+    </div>
+    <button id="installButton" class="icon-button" hidden aria-label="Pasang aplikasi">＋</button>
+  </header>
+
+  <main>
+    <section id="welcomeCard" class="card hero">
+      <div class="hero-icon" aria-hidden="true">R6</div>
+      <div>
+        <h2>Buka salinan arsip RPF6</h2>
+        <p>File diproses langsung di iPhone dan tidak diunggah ke server. Tool tidak dapat membuka folder game lain karena sandbox iOS.</p>
+      </div>
+      <label class="primary-button file-button">
+        Pilih file .rpf
+        <input id="archiveInput" type="file" accept=".rpf,application/octet-stream" hidden>
+      </label>
+      <p class="fineprint">Versi aman ini menolak TOC terenkripsi dan tidak menyertakan kunci game, bypass DRM, atau exploit.</p>
+    </section>
+
+    <section id="workspace" hidden>
+      <section class="card archive-summary">
+        <div>
+          <p class="eyebrow">ARSIP AKTIF</p>
+          <h2 id="archiveName">—</h2>
+          <p id="archiveMeta" class="muted">—</p>
+        </div>
+        <div class="summary-actions">
+          <label class="secondary-button file-button">
+            Names.txt
+            <input id="namesInput" type="file" accept=".txt,text/plain" hidden>
+          </label>
+          <button id="closeArchiveButton" class="secondary-button danger">Tutup</button>
+        </div>
+      </section>
+
+      <section class="toolbar card">
+        <label class="search-wrap">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="Cari path, nama, atau hash" autocomplete="off">
+        </label>
+        <select id="typeFilter" aria-label="Filter entry">
+          <option value="all">Semua</option>
+          <option value="file">File</option>
+          <option value="directory">Direktori</option>
+          <option value="resource">Resource</option>
+          <option value="compressed">Compressed</option>
+        </select>
+      </section>
+
+      <section class="stats-grid" aria-label="Statistik arsip">
+        <article class="card stat"><span>Entry</span><strong id="entryCount">0</strong></article>
+        <article class="card stat"><span>File</span><strong id="fileCount">0</strong></article>
+        <article class="card stat"><span>Folder</span><strong id="directoryCount">0</strong></article>
+      </section>
+
+      <section class="card list-card">
+        <div class="list-heading">
+          <div>
+            <p class="eyebrow">TABLE OF CONTENTS</p>
+            <h2>Isi arsip</h2>
+          </div>
+          <span id="visibleCount" class="pill">0</span>
+        </div>
+        <div id="entryList" class="entry-list" role="list"></div>
+        <button id="loadMoreButton" class="secondary-button load-more" hidden>Muat lebih banyak</button>
+        <p id="emptyList" class="empty-list" hidden>Tidak ada entry yang cocok.</p>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="entryDialog">
+    <form method="dialog" class="dialog-card">
+      <button class="dialog-close" value="cancel" aria-label="Tutup">×</button>
+      <p class="eyebrow">ENTRY DETAIL</p>
+      <h2 id="detailName">—</h2>
+      <p id="detailPath" class="muted break-anywhere">—</p>
+      <dl id="detailGrid" class="detail-grid"></dl>
+      <div id="fileActions" class="dialog-actions">
+        <button id="extractButton" type="button" class="secondary-button">Ekstrak raw</button>
+        <label class="primary-button file-button">
+          Ganti raw
+          <input id="replacementInput" type="file" accept="application/octet-stream,*/*" hidden>
+        </label>
+      </div>
+      <p id="detailNote" class="fineprint"></p>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
