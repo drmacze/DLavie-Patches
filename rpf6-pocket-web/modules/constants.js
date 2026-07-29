@@ -1,0 +1,11 @@
+export const RPF6_MAGIC = 0x52504636;
+export const RPF6_HEADER_SIZE = 16;
+export const RPF6_TOC_ENTRY_SIZE = 20;
+export const RPF6_ALIGNMENT = 16;
+export const MAX_ENTRY_COUNT = 5_000_000;
+export const MAX_PATCH_SIZE = 0x0fffffff;
+export const PAGE_SIZE = 120;
+export const DIAGNOSTIC_TOC_SAMPLE_BYTES = 256 * 1024;
+export const DIAGNOSTIC_TAIL_SAMPLE_BYTES = 64 * 1024;
+export const PROJECT_SCHEMA_VERSION = 1;
+export const DIAGNOSTIC_SCHEMA_VERSION = 1;

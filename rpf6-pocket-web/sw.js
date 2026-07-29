@@ -1,4 +1,4 @@
-const CACHE_PREFIX = 'rpf6-pocket-';
+const CACHE_PREFIX = 'rpf6-enhanced-';
 const CACHE = `${CACHE_PREFIX}__CACHE_VERSION__`;
 const ASSETS = [
   './',
@@ -11,6 +11,13 @@ const ASSETS = [
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-512.png',
+  './modules/constants.js',
+  './modules/format.js',
+  './modules/hash.js',
+  './modules/rpf6.js',
+  './modules/diagnostics.js',
+  './modules/profiles.js',
+  './modules/project.js',
 ];
 
 self.addEventListener('install', (event) => {
@@ -31,7 +38,6 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
-
   event.respondWith((async () => {
     const cached = await caches.match(event.request);
     if (cached) return cached;
