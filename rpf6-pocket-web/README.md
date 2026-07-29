@@ -9,7 +9,15 @@ Workspace iPhone-first untuk inspeksi, diagnosis, patch raw yang aman, dan peren
 - Arsip asli tidak pernah ditimpa; patch selalu diunduh sebagai salinan baru.
 - File dengan TOC terenkripsi tetap dapat didiagnosis tanpa menafsirkan data terenkripsi sebagai entry.
 
-## Fitur v2
+## Fitur v2.1
+
+### Batch Scan dan diagnostic pack
+
+- Memilih banyak file `.rpf` sekaligus dari Files.
+- Memproses arsip secara berurutan agar lebih ramah RAM iPhone 11.
+- Menampilkan status `TOC terbuka`, `Encrypted`, atau `Gagal` untuk setiap arsip.
+- Mengunduh satu ZIP tanpa dependensi eksternal yang berisi `summary.json`, folder `reports/`, dan `README.txt`.
+- File RPF asli tidak dimasukkan ke ZIP dan tidak pernah diubah.
 
 ### Archive Diagnostics
 
@@ -39,23 +47,30 @@ Workspace iPhone-first untuk inspeksi, diagnosis, patch raw yang aman, dan peren
 ```text
 rpf6-pocket-web/
 ├── app.js
+├── batch.js
+├── batch.html
+├── batch.css
 ├── index.html
 ├── styles.css
 ├── sw.js
 ├── manifest.webmanifest
 ├── modules/
+│   ├── batch.js
 │   ├── constants.js
 │   ├── diagnostics.js
 │   ├── format.js
 │   ├── hash.js
 │   ├── profiles.js
 │   ├── project.js
-│   └── rpf6.js
+│   ├── rpf6.js
+│   └── zip.js
 └── tests/
+    ├── batch.test.mjs
     ├── diagnostics.test.mjs
     ├── helpers.mjs
     ├── project.test.mjs
-    └── rpf6.test.mjs
+    ├── rpf6.test.mjs
+    └── zip.test.mjs
 ```
 
 ## Roadmap teknis
