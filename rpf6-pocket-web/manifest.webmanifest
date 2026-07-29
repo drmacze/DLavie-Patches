@@ -1,12 +1,12 @@
 {
-  "name": "RPF6 Pocket Lab",
-  "short_name": "RPF6 Pocket",
-  "description": "Pembaca dan patcher RPF6 lokal untuk iPhone.",
+  "name": "RPF6 Enhanced Lab",
+  "short_name": "RPF6 Enhanced",
+  "description": "Inspeksi, diagnosis, patch aman, dan blueprint enhancement RPF6 lokal untuk iPhone.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0b0d11",
-  "theme_color": "#111318",
+  "background_color": "#090b0f",
+  "theme_color": "#0b0d11",
   "orientation": "any",
   "icons": [
     {

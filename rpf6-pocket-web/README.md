@@ -1,49 +1,91 @@
-# RPF6 Pocket Lab (PWA)
+# RPF6 Enhanced Lab (PWA)
 
-Web app/PWA untuk membaca dan mempatch **salinan RPF6 milik pengguna** langsung di browser iPhone.
+Workspace iPhone-first untuk inspeksi, diagnosis, patch raw yang aman, dan perencanaan **RDR Mobile Enhancement**. Semua pemrosesan berlangsung lokal di perangkat.
 
-## Privasi dan arsitektur
+## Prinsip keselamatan
 
-- Seluruh pemrosesan terjadi di perangkat lewat `File`, `Blob`, `DataView`, dan `File.slice()`.
-- Tidak ada upload file, backend, telemetry, atau analytics.
-- Header dan TOC dibaca terpisah agar penggunaan RAM lebih rendah pada iPhone 11.
-- Salinan patched disusun sebagai komposisi `Blob`; arsip asli tidak diubah.
+- Tidak ada upload, backend, telemetry, atau analytics.
+- Tidak menyertakan kunci game, dekripsi, bypass DRM, jailbreak, exploit, atau akses ke container aplikasi lain.
+- Arsip asli tidak pernah ditimpa; patch selalu diunduh sebagai salinan baru.
+- File dengan TOC terenkripsi tetap dapat didiagnosis tanpa menafsirkan data terenkripsi sebagai entry.
 
-## Fitur
+## Fitur v2
 
-- Parser RPF6 big-endian.
-- Daftar direktori/file, hash, path, offset, ukuran, resource, dan compressed flag.
-- Pencarian dan filter.
+### Archive Diagnostics
+
+- Membaca header RPF6 big-endian.
+- Menampilkan entry count, debug offset, encryption flag, ukuran TOC yang diharapkan, dan entropy sampel.
+- Membuat fingerprint SHA-256 dari header, sampel TOC, tail, dan ukuran file.
+- Ekspor laporan diagnostik JSON.
+- Hex preview kecil tanpa membaca seluruh arsip ke RAM.
+
+### Archive Browser — RPF6 tanpa enkripsi
+
+- Struktur direktori/file, hash, path, offset, ukuran, resource type, compression, dan extended flags.
+- Deteksi entry out-of-bounds.
 - Import `names.txt` menggunakan lowercase JOAAT.
-- Ekstrak entry raw.
-- Replace raw jika ukuran pengganti tidak melebihi slot lama.
-- PWA/offline cache.
+- Pencarian, filter, pagination, ekstraksi raw, dan patch slot berukuran sama/lebih kecil.
+- Patch mempertahankan reserved bits pada field ukuran dan tidak mengalokasikan padding besar.
 
-## Batasan
+### Enhancement Studio
 
-- TOC terenkripsi ditolak; tidak ada kunci game atau bypass DRM.
-- Tidak dapat mengakses data aplikasi/game lain karena sandbox iOS.
-- Tidak melakukan dekompresi, encoding tekstur, atau rebuild penuh.
-- Replacement harus sudah berformat internal benar dan berukuran sama/lebih kecil.
-- Arsip besar masih membutuhkan ruang penyimpanan untuk file hasil.
+- Profil `iPhone 11 Balanced`, `Detail+`, dan `Cinematic`.
+- Blueprint untuk texture, lighting, shader/material, environment, dan performance.
+- Ekspor/impor project JSON yang dapat dipakai sebagai catatan riset dan input adapter mendatang.
+- Status modular pipeline untuk archive rebuilder, texture adapter, lighting adapter, dan shader metadata adapter.
+
+## Struktur
+
+```text
+rpf6-pocket-web/
+├── app.js
+├── index.html
+├── styles.css
+├── sw.js
+├── manifest.webmanifest
+├── modules/
+│   ├── constants.js
+│   ├── diagnostics.js
+│   ├── format.js
+│   ├── hash.js
+│   ├── profiles.js
+│   ├── project.js
+│   └── rpf6.js
+└── tests/
+    ├── diagnostics.test.mjs
+    ├── helpers.mjs
+    ├── project.test.mjs
+    └── rpf6.test.mjs
+```
+
+## Roadmap teknis
+
+1. **Full Archive Rebuilder** untuk payload yang lebih besar, alignment, relayout offset, dan validasi hasil.
+2. **Resource Fingerprinting** untuk mengelompokkan candidate texture, material, config, LUT, timecycle, dan shader metadata.
+3. **Texture Adapter**: preview mipmap, ekspor/import, encode, dan size budget.
+4. **Lighting Adapter**: exposure, ambient, shadow, fog, weather, LUT, atau timecycle bila format sah ditemukan.
+5. **Shader Metadata Adapter**: inventaris material dan parameter yang dapat diedit tanpa injeksi kode aplikasi.
+6. **iPhone 11 Validator**: budget memori, pertumbuhan arsip, thermal risk, mipmap, dan target 30 FPS.
 
 ## Menjalankan lokal
 
-Karena service worker memerlukan HTTP/HTTPS, jalankan server statis:
-
 ```bash
+cd rpf6-pocket-web
 python3 -m http.server 8080
 ```
 
-Lalu buka `http://localhost:8080/rpf6-pocket-web/`.
+Buka `http://localhost:8080/`.
+
+## Pengujian
+
+Memerlukan Node.js 20 atau lebih baru.
+
+```bash
+cd rpf6-pocket-web
+npm run check
+npm test
+```
 
 ## GitHub Pages
 
-Workflow di `.github/workflows/rpf6-pocket-web-pages.yml` menerbitkan folder ini ke GitHub Pages setelah perubahan di-merge ke `main`. Pada pertama kali, buka **Settings → Pages → Source: GitHub Actions**.
-
-## iPhone
-
-1. Buka URL GitHub Pages melalui Safari.
-2. Tekan tombol Bagikan.
-3. Pilih **Tambahkan ke Layar Utama**.
-4. Buka aplikasi dari Home Screen dan pilih salinan `.rpf` melalui Files.
+Workflow Pages menerbitkan folder `rpf6-pocket-web` dari branch `main`. Cache service worker diberi versi berdasarkan commit deployment agar pembaruan tidak tertahan cache lama.

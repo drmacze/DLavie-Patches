@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#111318">
+  <meta name="theme-color" content="#0b0d11">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="RPF6 Pocket">
-  <meta name="description" content="Pembaca dan patcher RPF6 lokal untuk iPhone. File diproses langsung di perangkat.">
+  <meta name="apple-mobile-web-app-title" content="RPF6 Enhanced">
+  <meta name="description" content="Lab RPF6 lokal untuk inspeksi, diagnosis, patch aman, dan perencanaan enhancement RDR Mobile.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
   <link rel="stylesheet" href="./styles.css">
-  <title>RPF6 Pocket Lab</title>
+  <title>RPF6 Enhanced Lab</title>
 </head>
 <body>
   <header class="topbar">
     <div>
       <p class="eyebrow">LOCAL • PRIVATE • OFFLINE</p>
-      <h1>RPF6 Pocket Lab</h1>
+      <h1>RPF6 Enhanced Lab</h1>
     </div>
     <button id="installButton" class="icon-button" hidden aria-label="Pasang aplikasi">＋</button>
   </header>
@@ -27,63 +27,202 @@
     <section id="welcomeCard" class="card hero">
       <div class="hero-icon" aria-hidden="true">R6</div>
       <div>
-        <h2>Buka salinan arsip RPF6</h2>
-        <p>File diproses langsung di iPhone dan tidak diunggah ke server. Tool tidak dapat membuka folder game lain karena sandbox iOS.</p>
+        <p class="eyebrow">RDR MOBILE ENHANCEMENT WORKSPACE</p>
+        <h2>Inspect. Diagnose. Plan. Patch.</h2>
+        <p>Arsip diproses langsung di iPhone. File terenkripsi tetap dapat dianalisis tanpa dekripsi, sedangkan RPF6 yang terbaca dapat dibrowse, diekstrak, dan dipatch secara aman.</p>
       </div>
       <label class="primary-button file-button">
         Pilih file .rpf
         <input id="archiveInput" type="file" accept=".rpf,application/octet-stream" hidden>
       </label>
-      <p class="fineprint">Versi aman ini menolak TOC terenkripsi dan tidak menyertakan kunci game, bypass DRM, atau exploit.</p>
+      <div class="hero-points" aria-label="Fitur utama">
+        <span>Diagnosis terenkripsi</span>
+        <span>Profil iPhone 11</span>
+        <span>Project manifest</span>
+      </div>
+      <p class="fineprint">Tidak ada upload, kunci game, bypass DRM, jailbreak, exploit, atau akses ke container aplikasi lain.</p>
     </section>
 
     <section id="workspace" hidden>
       <section class="card archive-summary">
-        <div>
-          <p class="eyebrow">ARSIP AKTIF</p>
-          <h2 id="archiveName">—</h2>
-          <p id="archiveMeta" class="muted">—</p>
+        <div class="archive-title-wrap">
+          <div>
+            <p class="eyebrow">ARSIP AKTIF</p>
+            <h2 id="archiveName">—</h2>
+            <p id="archiveMeta" class="muted">—</p>
+          </div>
+          <span id="archiveStatus" class="status-badge">—</span>
         </div>
         <div class="summary-actions">
-          <label class="secondary-button file-button">
+          <label id="namesButton" class="secondary-button file-button">
             Names.txt
             <input id="namesInput" type="file" accept=".txt,text/plain" hidden>
+          </label>
+          <label class="secondary-button file-button">
+            Ganti arsip
+            <input id="archiveReplaceInput" type="file" accept=".rpf,application/octet-stream" hidden>
           </label>
           <button id="closeArchiveButton" class="secondary-button danger">Tutup</button>
         </div>
       </section>
 
-      <section class="toolbar card">
-        <label class="search-wrap">
-          <span aria-hidden="true">⌕</span>
-          <input id="searchInput" type="search" placeholder="Cari path, nama, atau hash" autocomplete="off">
-        </label>
-        <select id="typeFilter" aria-label="Filter entry">
-          <option value="all">Semua</option>
-          <option value="file">File</option>
-          <option value="directory">Direktori</option>
-          <option value="resource">Resource</option>
-          <option value="compressed">Compressed</option>
-        </select>
-      </section>
+      <nav class="tabbar card" aria-label="Area kerja">
+        <button class="tab-button active" data-tab="overview" aria-selected="true">Ringkasan</button>
+        <button id="archiveTabButton" class="tab-button" data-tab="archive" aria-selected="false">Arsip</button>
+        <button class="tab-button" data-tab="enhance" aria-selected="false">Enhance</button>
+        <button class="tab-button" data-tab="diagnostics" aria-selected="false">Diagnostik</button>
+      </nav>
 
-      <section class="stats-grid" aria-label="Statistik arsip">
-        <article class="card stat"><span>Entry</span><strong id="entryCount">0</strong></article>
-        <article class="card stat"><span>File</span><strong id="fileCount">0</strong></article>
-        <article class="card stat"><span>Folder</span><strong id="directoryCount">0</strong></article>
-      </section>
+      <section id="overviewPanel" class="tab-panel" data-panel="overview">
+        <section class="stats-grid stats-grid-four" aria-label="Status arsip">
+          <article class="card stat"><span>Entry</span><strong id="overviewEntryCount">—</strong></article>
+          <article class="card stat"><span>Enkripsi</span><strong id="overviewEncryption">—</strong></article>
+          <article class="card stat"><span>Entropy</span><strong id="overviewEntropy">—</strong></article>
+          <article class="card stat"><span>Mode</span><strong id="overviewMode">—</strong></article>
+        </section>
 
-      <section class="card list-card">
-        <div class="list-heading">
-          <div>
-            <p class="eyebrow">TABLE OF CONTENTS</p>
-            <h2>Isi arsip</h2>
+        <section class="card section-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">CAPABILITY MATRIX</p>
+              <h2>Apa yang dapat dilakukan sekarang</h2>
+            </div>
           </div>
-          <span id="visibleCount" class="pill">0</span>
+          <div id="capabilityGrid" class="capability-grid"></div>
+        </section>
+
+        <section class="card section-card next-step-card">
+          <p class="eyebrow">NEXT BEST ACTION</p>
+          <h2 id="nextActionTitle">—</h2>
+          <p id="nextActionText" class="muted">—</p>
+          <button id="nextActionButton" class="primary-button">Buka diagnostik</button>
+        </section>
+      </section>
+
+      <section id="archivePanel" class="tab-panel" data-panel="archive" hidden>
+        <section id="archiveLockedCard" class="card locked-card" hidden>
+          <div class="locked-icon" aria-hidden="true">⌁</div>
+          <div>
+            <p class="eyebrow">TABLE OF CONTENTS LOCKED</p>
+            <h2>TOC terenkripsi tidak dapat dibrowse</h2>
+            <p class="muted">Header dan fingerprint tetap tersedia di tab Diagnostik. Tool tidak mencoba dekripsi atau menebak offset entry.</p>
+          </div>
+          <button class="secondary-button" data-open-tab="diagnostics">Lihat diagnostik</button>
+        </section>
+
+        <div id="archiveBrowser" hidden>
+          <section class="toolbar card">
+            <label class="search-wrap">
+              <span aria-hidden="true">⌕</span>
+              <input id="searchInput" type="search" placeholder="Cari path, nama, atau hash" autocomplete="off">
+            </label>
+            <select id="typeFilter" aria-label="Filter entry">
+              <option value="all">Semua</option>
+              <option value="file">File</option>
+              <option value="directory">Direktori</option>
+              <option value="resource">Resource</option>
+              <option value="compressed">Compressed</option>
+              <option value="invalid">Out of bounds</option>
+            </select>
+          </section>
+
+          <section class="stats-grid" aria-label="Statistik arsip">
+            <article class="card stat"><span>Entry</span><strong id="entryCount">0</strong></article>
+            <article class="card stat"><span>File</span><strong id="fileCount">0</strong></article>
+            <article class="card stat"><span>Folder</span><strong id="directoryCount">0</strong></article>
+          </section>
+
+          <section class="card list-card">
+            <div class="list-heading">
+              <div>
+                <p class="eyebrow">TABLE OF CONTENTS</p>
+                <h2>Isi arsip</h2>
+              </div>
+              <span id="visibleCount" class="pill">0</span>
+            </div>
+            <div id="entryList" class="entry-list" role="list"></div>
+            <button id="loadMoreButton" class="secondary-button load-more" hidden>Muat lebih banyak</button>
+            <p id="emptyList" class="empty-list" hidden>Tidak ada entry yang cocok.</p>
+          </section>
         </div>
-        <div id="entryList" class="entry-list" role="list"></div>
-        <button id="loadMoreButton" class="secondary-button load-more" hidden>Muat lebih banyak</button>
-        <p id="emptyList" class="empty-list" hidden>Tidak ada entry yang cocok.</p>
+      </section>
+
+      <section id="enhancePanel" class="tab-panel" data-panel="enhance" hidden>
+        <section class="card section-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">IPHONE 11 TARGET PROFILE</p>
+              <h2>Rancang paket enhancement</h2>
+            </div>
+            <span id="profileBadge" class="status-badge status-ready">—</span>
+          </div>
+          <label class="field-label" for="profileSelect">Profil</label>
+          <select id="profileSelect" class="full-select"></select>
+          <div id="profileSummary" class="profile-summary"></div>
+        </section>
+
+        <section class="card section-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">ENHANCEMENT GOALS</p>
+              <h2>Area yang akan diteliti dan ditingkatkan</h2>
+            </div>
+          </div>
+          <div class="goal-grid">
+            <label class="goal-card"><input type="checkbox" name="goal" value="textures" checked><span><strong>Textures</strong><small>Karakter, senjata, jalan, tanah, bangunan dekat.</small></span></label>
+            <label class="goal-card"><input type="checkbox" name="goal" value="lighting" checked><span><strong>Lighting</strong><small>Exposure, ambient, shadow, fog, LUT, timecycle.</small></span></label>
+            <label class="goal-card"><input type="checkbox" name="goal" value="shaders"><span><strong>Shaders</strong><small>Inventaris material dan parameter yang ditemukan.</small></span></label>
+            <label class="goal-card"><input type="checkbox" name="goal" value="environment" checked><span><strong>Environment</strong><small>Foliage, terrain, sky, water, weather, draw distance.</small></span></label>
+            <label class="goal-card"><input type="checkbox" name="goal" value="performance" checked><span><strong>Performance</strong><small>Memori, ukuran arsip, thermal, dan stabilitas 30 FPS.</small></span></label>
+          </div>
+          <label class="field-label" for="projectNotes">Catatan proyek</label>
+          <textarea id="projectNotes" rows="5" placeholder="Contoh: fokus pada lighting senja, texture karakter utama, dan jalan kota."></textarea>
+          <div class="button-row">
+            <button id="exportProjectButton" class="primary-button">Ekspor project JSON</button>
+            <label class="secondary-button file-button">
+              Impor project
+              <input id="projectInput" type="file" accept=".json,application/json" hidden>
+            </label>
+          </div>
+          <p class="fineprint">Project JSON adalah blueprint. Ia tidak mengubah game sampai adapter format dan jalur pemasangan yang sah tersedia.</p>
+        </section>
+
+        <section class="card section-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">MODULAR PIPELINE</p>
+              <h2>Status komponen enhancement</h2>
+            </div>
+          </div>
+          <div id="pipelineList" class="pipeline-list"></div>
+        </section>
+      </section>
+
+      <section id="diagnosticsPanel" class="tab-panel" data-panel="diagnostics" hidden>
+        <section class="stats-grid stats-grid-four" aria-label="Diagnosis arsip">
+          <article class="card stat"><span>Magic</span><strong id="diagMagic">—</strong></article>
+          <article class="card stat"><span>Flag</span><strong id="diagFlag">—</strong></article>
+          <article class="card stat"><span>TOC</span><strong id="diagTocSize">—</strong></article>
+          <article class="card stat"><span>Sample</span><strong id="diagSampleSize">—</strong></article>
+        </section>
+
+        <section class="card section-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">ARCHIVE FINGERPRINT</p>
+              <h2>Identitas sampel lokal</h2>
+            </div>
+            <button id="exportDiagnosticButton" class="secondary-button">Ekspor JSON</button>
+          </div>
+          <dl id="diagnosticGrid" class="detail-grid diagnostic-grid"></dl>
+        </section>
+
+        <section class="card section-card">
+          <p class="eyebrow">HEADER + SAMPLE PREVIEW</p>
+          <h2>Hex preview</h2>
+          <pre id="hexPreview" class="hex-preview">—</pre>
+          <p class="fineprint">Preview ini hanya membaca bagian kecil file. Tidak ada dekripsi dan tidak ada isi arsip yang diunggah.</p>
+        </section>
       </section>
     </section>
   </main>
@@ -107,7 +246,6 @@
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-
   <script type="module" src="./app.js"></script>
 </body>
 </html>
