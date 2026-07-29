@@ -31,10 +31,13 @@
         <h2>Inspect. Diagnose. Plan. Patch.</h2>
         <p>Arsip diproses langsung di iPhone. File terenkripsi tetap dapat dianalisis tanpa dekripsi, sedangkan RPF6 yang terbaca dapat dibrowse, diekstrak, dan dipatch secara aman.</p>
       </div>
-      <label class="primary-button file-button">
-        Pilih file .rpf
-        <input id="archiveInput" type="file" accept=".rpf,application/octet-stream" hidden>
-      </label>
+      <div class="button-row hero-actions">
+        <label class="primary-button file-button">
+          Pilih satu file .rpf
+          <input id="archiveInput" type="file" accept=".rpf,application/octet-stream" hidden>
+        </label>
+        <a class="secondary-button button-link" href="./batch.html">Pindai banyak RPF</a>
+      </div>
       <div class="hero-points" aria-label="Fitur utama">
         <span>Diagnosis terenkripsi</span>
         <span>Profil iPhone 11</span>
@@ -54,6 +57,7 @@
           <span id="archiveStatus" class="status-badge">—</span>
         </div>
         <div class="summary-actions">
+          <a class="secondary-button button-link" href="./batch.html">Batch scan</a>
           <label id="namesButton" class="secondary-button file-button">
             Names.txt
             <input id="namesInput" type="file" accept=".txt,text/plain" hidden>
