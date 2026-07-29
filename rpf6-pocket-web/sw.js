@@ -5,6 +5,9 @@ const ASSETS = [
   './index.html',
   './styles.css',
   './app.js',
+  './batch.html',
+  './batch.css',
+  './batch.js',
   './manifest.webmanifest',
   './icon.svg',
   './apple-touch-icon.png',
@@ -18,6 +21,8 @@ const ASSETS = [
   './modules/diagnostics.js',
   './modules/profiles.js',
   './modules/project.js',
+  './modules/batch.js',
+  './modules/zip.js',
 ];
 
 self.addEventListener('install', (event) => {
