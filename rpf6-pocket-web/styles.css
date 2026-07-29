@@ -331,3 +331,11 @@ dialog { width: min(calc(100% - 24px), 620px); padding: 0; color: var(--text); b
   .section-heading { flex-direction: column; }
   .button-row > * { width: 100%; }
 }
+
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.hero-actions { justify-content: center; margin-top: 0; }
