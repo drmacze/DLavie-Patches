@@ -330,15 +330,30 @@ async function patchSelected(event) {
       throw new RPFError('Layout entry tidak aman untuk patch in-place.');
     }
 
+    const originalSizeFieldBuffer = await state.file
+      .slice(sizeFieldOffset, sizeFieldOffset + 4)
+      .arrayBuffer();
+    const originalSizeField = new DataView(originalSizeFieldBuffer).getUint32(0, false);
+    const preservedTopBits = originalSizeField & 0xf0000000;
     const sizeBytes = new ArrayBuffer(4);
-    new DataView(sizeBytes).setUint32(0, replacement.size, false);
-    const padding = new Uint8Array(entry.size - replacement.size);
+    new DataView(sizeBytes).setUint32(
+      0,
+      preservedTopBits | (replacement.size & 0x0fffffff),
+      false,
+    );
+
+    // Keep the unused tail of the original slot instead of allocating a potentially
+    // very large zero-filled array on memory-constrained iPhones.
+    const preservedSlotTail = state.file.slice(
+      payloadStart + replacement.size,
+      payloadEnd,
+    );
     const patched = new Blob([
       state.file.slice(0, sizeFieldOffset),
       sizeBytes,
       state.file.slice(sizeFieldOffset + 4, payloadStart),
       replacement,
-      padding,
+      preservedSlotTail,
       state.file.slice(payloadEnd),
     ], { type: 'application/octet-stream' });
 
