@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d11">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="RPF6 Batch">
+  <meta name="description" content="Pindai banyak arsip RPF6 sekaligus dan unduh paket laporan diagnostik secara lokal di iPhone.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./batch.css">
+  <title>Batch Scan — RPF6 Enhanced Lab</title>
+</head>
+<body>
+  <header class="topbar batch-topbar">
+    <a class="secondary-button compact-link" href="./index.html" aria-label="Kembali ke editor satu arsip">‹</a>
+    <div class="batch-title">
+      <p class="eyebrow">MULTI-RPF WORKSPACE</p>
+      <h1>Batch Scan</h1>
+    </div>
+    <span class="status-badge status-ready">LOCAL</span>
+  </header>
+
+  <main>
+    <section id="batchHero" class="card hero batch-hero">
+      <div class="hero-icon" aria-hidden="true">B+</div>
+      <div>
+        <p class="eyebrow">SCAN MANY • DOWNLOAD ONCE</p>
+        <h2>Pilih banyak file RPF sekaligus</h2>
+        <p>Tool membaca header dan sampel kecil secara berurutan agar lebih ramah RAM iPhone 11. Arsip asli tidak dimasukkan ke paket hasil.</p>
+      </div>
+      <label class="primary-button file-button">
+        Pilih banyak file .rpf
+        <input id="batchInput" type="file" accept=".rpf,application/octet-stream" multiple hidden>
+      </label>
+      <div class="hero-points" aria-label="Fitur batch">
+        <span>Proses berurutan</span>
+        <span>Ringkasan gabungan</span>
+        <span>ZIP laporan</span>
+      </div>
+      <p class="fineprint">Tidak ada upload, dekripsi, kunci game, atau perubahan pada file RPF.</p>
+    </section>
+
+    <section id="batchWorkspace" class="batch-workspace" hidden>
+      <section class="card batch-summary-card">
+        <div class="section-heading batch-summary-heading">
+          <div>
+            <p class="eyebrow">BATCH AKTIF</p>
+            <h2 id="batchTitle">Memindai arsip</h2>
+            <p id="batchSubtitle" class="muted">—</p>
+          </div>
+          <span id="batchStatus" class="status-badge">Menunggu</span>
+        </div>
+
+        <div class="stats-grid stats-grid-four batch-stats" aria-label="Statistik pemindaian">
+          <article class="card stat"><span>Total</span><strong id="totalCount">0</strong></article>
+          <article class="card stat"><span>Terbaca</span><strong id="readableCount">0</strong></article>
+          <article class="card stat"><span>Terenkripsi</span><strong id="encryptedCount">0</strong></article>
+          <article class="card stat"><span>Gagal</span><strong id="failedCount">0</strong></article>
+        </div>
+
+        <div class="progress-wrap" aria-label="Kemajuan pemindaian">
+          <div class="progress-meta"><span id="progressLabel">0 / 0</span><span id="progressPercent">0%</span></div>
+          <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+        </div>
+
+        <div class="button-row batch-actions">
+          <label class="secondary-button file-button">
+            Pilih ulang
+            <input id="batchReplaceInput" type="file" accept=".rpf,application/octet-stream" multiple hidden>
+          </label>
+          <button id="downloadPackButton" class="primary-button" disabled>Unduh pack ZIP</button>
+          <button id="downloadSummaryButton" class="secondary-button" disabled>Ringkasan JSON</button>
+          <button id="clearBatchButton" class="secondary-button danger">Bersihkan</button>
+        </div>
+      </section>
+
+      <section class="card section-card batch-help-card">
+        <p class="eyebrow">HASIL PACK</p>
+        <h2>Satu unduhan untuk semua diagnosis</h2>
+        <p class="muted">ZIP berisi <code>summary.json</code>, satu laporan JSON per arsip di folder <code>reports/</code>, dan petunjuk singkat. File RPF berukuran besar tidak ikut disalin.</p>
+      </section>
+
+      <section class="card list-card batch-list-card">
+        <div class="list-heading">
+          <div>
+            <p class="eyebrow">ARCHIVE QUEUE</p>
+            <h2>Hasil pemindaian</h2>
+          </div>
+          <span id="resultCount" class="pill">0</span>
+        </div>
+        <div id="batchList" class="batch-list" role="list"></div>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="./batch.js"></script>
+</body>
+</html>
